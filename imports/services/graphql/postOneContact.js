@@ -18,9 +18,9 @@ mutation($contact: ContactInput!){
 }
 `
 const postOneContact =  () => {
-    const [mutateFunction, {data, loading, error}] = useMutation(createContact)
+    const [CreateContact, {data, loading, error}] = useMutation(createContact)
 
-    return  [mutateFunction, {dataCreateContact:data, loadingContact:loading, errorCreateContact:error}]
+    return  [CreateContact, {dataCreateContact:data, loadingContact:loading, errorCreateContact:error}]
 }
 
 export default postOneContact

@@ -9,12 +9,11 @@ import {
 import {
     ApolloClient,
     InMemoryCache,
-    ApolloProvider,
-    useQuery,
-    gql
+    ApolloProvider
 } from "@apollo/client";
 import Update from "./views/Update";
 
+//connecting the Graphql client to the Apollo server
 const client = new ApolloClient({
     uri: 'http://localhost:4000',
     cache: new InMemoryCache()

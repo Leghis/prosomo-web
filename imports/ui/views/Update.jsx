@@ -1,20 +1,26 @@
 import React, {useEffect, useState} from "react";
-import {AutoField, AutoForm} from "uniforms-material";
+import {AutoField, AutoForm, ErrorsField, SubmitField} from "uniforms-material";
 import {bridge as schema} from "../../schema/Contact/ContactValidator";
 import {gql, useMutation, useQuery} from "@apollo/client";
-import {useParams} from "react-router-dom";
+import {Link, Redirect, useHistory, useLocation, useParams} from "react-router-dom";
 import getOneContact from "../../services/graphql/getOneContact";
-import {CircularProgress, Container} from "@material-ui/core";
+import {Button, CircularProgress, Container} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import postOneContact from "../../services/graphql/postOneContact";
+import HeaderComponent from "../components/HeaderComponent";
+import updateOneContact from "../../services/graphql/updateOneContact";
+import {useForm} from "uniforms";
 
 
 const useStyles = makeStyles({
-    containerLoader:{
-        display:"flex",
-        height:"max-content",
-        justifyContent:"center",
-        alignItems:"center"
+    containerLoader: {
+        display: "flex",
+        height: "max-content",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    btnBack: {
+        textDecoration: "none"
     }
 });
 
@@ -26,11 +32,17 @@ const Update = () => {
     //get the id
     const {id} = useParams();
 
+    //Hook to perform a redirection after the registration of a contact
+    let history = useHistory();
+
+
     //Utiliser le service getOneContact pour récupérer les informations d'un
     // contact afin de les afficher dans le formulaire si l'id est existant
-    const {load,failed,response} = getOneContact(id)
+    const {load, failed, response} = getOneContact(id)
 
-    const [mutateFunction, {dataCreateContact, loadingContact, errorCreateContact}] = postOneContact()
+
+    const [CreateContact, {dataCreateContact, loadingContact, errorCreateContact}] = postOneContact()
+    const [updateContact, {dataUpdateContact, loadingUpdate, errorUpdateContact}] = updateOneContact()
 
     //this hook will allow us to store the values of a contact if it exists
     const [FormValue, setFormValue] = useState({})
@@ -49,52 +61,63 @@ const Update = () => {
         if (load) setLoading(load)
         if (failed) setError(true)
         if (response) setFormValue((response.getContact))
-    }, [load,failed, response])
+    }, [load, failed, response])
 
-        return(
+    const changeDataForm = (e) => {
+        console.log(e)
+    }
+
+    return (
+        <div>
+            <Link className={classes.btnBack} to={'/'}>
+                <Button variant="outlined" color="primary">
+                    Retour vers la page d'accueil
+                </Button>
+
+            </Link>
             <Container className={classes.containerLoader} maxWidth="sm">
+                {/*while the page is loading, display a loader*/}
                 {
-                    (id &&(loading === false && !FormValue)) && <CircularProgress />
+                    (id && (!FormValue)) && <CircularProgress/>
                 }
-                {/*{*/}
-                {/*    FormValue &&*/}
-                {/*    <AutoForm schema={schema} onSubmit={e =>*/}
-                {/*        postOneContact(*/}
-                {/*            {*/}
-                {/*                variables: {*/}
-                {/*                    "contact": {*/}
-                {/*                        box: e.box,*/}
-                {/*                        surname: e.surname,*/}
-                {/*                        name: e.name,*/}
-                {/*                        email: e.email,*/}
-                {/*                        phone: e.phone.toString(),*/}
-                {/*                        town: e.town,*/}
-                {/*                        region: e.region,*/}
-                {/*                        country: e.country,*/}
-                {/*                        comment1: e.comment1,*/}
-                {/*                        comment2: e.comment2*/}
-                {/*                    }*/}
-                {/*                }*/}
-                {/*            }).then(response => {*/}
-                {/*            alert(JSON.stringify(response))*/}
-                {/*        }).catch(error => alert(JSON.stringify(error)))*/}
-                {/*    }>*/}
-                {/*        <AutoField value={FormValue.box} name="box"/>*/}
-                {/*        <AutoField value={FormValue.surname} name="surname"/>*/}
-                {/*        <AutoField value={FormValue.name} name="name"/>*/}
-                {/*        <AutoField value={FormValue.email} name="email"/>*/}
-                {/*        <AutoField value={FormValue.phone} name="phone"/>*/}
-                {/*        <AutoField value={FormValue.town} name="town"/>*/}
-                {/*        <AutoField value={FormValue.region} name="region"/>*/}
-                {/*        <AutoField value={FormValue.country} name="country"/>*/}
-                {/*        <AutoField value={FormValue.comment1} name="comment1"/>*/}
-                {/*        <AutoField value={FormValue.comment2} name="comment2"/>*/}
-                {/*    </AutoForm>*/}
-                {/*}*/}
+
+                {/*Once the data has been loaded, display the form with the data if an id
+                 has been passed in parameter*/}
+                {
+                    FormValue &&
+                    <AutoForm schema={schema} onSubmit={e =>
+                        updateContact(
+                            {
+                                variables: {
+                                    "contact": {
+                                        box: e.box,
+                                        surname: e.surname,
+                                        name: e.name,
+                                        email: e.email,
+                                        phone: e.phone.toString(),
+                                        town: e.town,
+                                        region: e.region,
+                                        country: e.country,
+                                        comment1: e.comment1,
+                                        comment2: e.comment2
+                                    },
+                                    "refreshContactId": id,
+                                }
+                            }).then(r => {
+                            console.log(JSON.stringify(r))
+                            history.push('/')
+                        }).catch(error => {
+                            console.log(error.message)
+                        })
+                    }/>
+                }
+
+                {/*if the id doesn't exist, it means we just want to create a new contact,
+                so we will just display an empty form*/}
                 {
                     !id &&
                     <AutoForm schema={schema} onSubmit={e =>
-                        mutateFunction({
+                        CreateContact({
                             variables: {
                                 "contact": {
                                     box: e.box,
@@ -109,15 +132,17 @@ const Update = () => {
                                     comment2: e.comment2
                                 }
                             }
-                        }).then(r=>{
-                            alert(JSON.stringify(r))
-                        }).catch(error=>{
+                        }).then(r => {
+                            console.log(JSON.stringify(r))
+                            history.push('/')
+                        }).catch(error => {
                             console.log(error.message)
                         })
                     }/>
                 }
             </Container>
-        )
+        </div>
+    )
 }
 
 export default Update

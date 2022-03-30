@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -11,10 +11,9 @@ import SearchIcon from '@material-ui/icons/Search';
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        padding:0
     },
     menuButton: {
-        marginRight: theme.spacing(0),
+        marginRight: theme.spacing(2),
     },
     title: {
         flexGrow: 1,
@@ -33,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: 0,
         width: '100%',
         [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing(0),
+            marginLeft: theme.spacing(1),
             width: 'auto',
         },
     },
@@ -64,16 +63,36 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function HeaderComponent() {
+export default function HeaderComponent(props) {
     const classes = useStyles();
+    const [search, setSearch] = useState()
+
+    const changeSearch = (e) => {
+        setSearch(e.target.value)
+    }
 
     return (
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
                     <Typography className={classes.title} variant="h6" noWrap>
-                        Contact
+                       Prosomo Contact
                     </Typography>
+                    <div className={classes.search}>
+                        <div className={classes.searchIcon}>
+                            <SearchIcon />
+                        </div>
+                        <InputBase
+                            onKeyUp={changeSearch}
+                            placeholder="Search…"
+                            value={search}
+                            classes={{
+                                root: classes.inputRoot,
+                                input: classes.inputInput,
+                            }}
+                            inputProps={{ 'aria-label': 'search' }}
+                        />
+                    </div>
                 </Toolbar>
             </AppBar>
         </div>

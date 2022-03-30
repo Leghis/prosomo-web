@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import HeaderComponent from "../components/HeaderComponent";
 import CardComponent from "../components/CardComponent";
 import {Box, Button, Typography} from "@material-ui/core";
@@ -7,48 +7,66 @@ import ListContactComponent from "../components/ListContactComponent/ListContact
 import ListContact from "../components/ListContact";
 import {gql, useQuery} from "@apollo/client";
 import {Link} from "react-router-dom";
+import getAllContact from "../../services/graphql/getAllContact";
 
-const useStyles = makeStyles({})
+//definition of the css styles used
+const useStyles = makeStyles({
+    headerBox:{
+        display:"flex",
+        justifyContent:"space-between",
+        alignItems:"center"
+    },
+    btnRefresh:{
+        marginRight:"10px"
+    },
+    contactTitle:{
+        color : "#808095"
+    },
+    btnAddContact:{
+        textDecoration:"none"
+    }
+})
 
-
-const getllContact = gql`
-        query getAllContact{
-            getAllContact {
-            box
-            id
-            surname
-            name
-            email
-            phone
-            region
-            town
-            country
-            comment1
-            comment2
-        }
-      }`
 
 const Home = () => {
-    const { loading, error, data } = useQuery(getllContact)
+    const classes = useStyles()
+    //hook for storing the number of available contacts
+    const [contactNumber, setContactNumber] = useState(0)
+
+    //Data loading
+    const { loadAllContact, errorLoadAllContact, dataAllContact } = getAllContact()
+
+    const firstUpdate = useRef(true)
+    //if there are any changes in the data we will update the size of the list
+    useEffect(()=>{
+        if(firstUpdate.current){
+            firstUpdate.current = false
+            return 0
+        }
+        setContactNumber(dataAllContact.getAllContact.length)
+    },[dataAllContact])
+
     return (
         <div>
-            <HeaderComponent/>
-            <Box component="span" m={1}>
-                <Typography variant="h5" gutterBottom>
-                    Liste de contact
+            <HeaderComponent />
+            <Box className={classes.headerBox} component="span" m={1}>
+                <Typography className={classes.contactTitle} variant="h5" gutterBottom>
+                    Liste de contact : {contactNumber}
                 </Typography>
-                <Button variant="outlined" color="primary">
-                    Actualiser
-                </Button>
-                <Link to={'/add'}>
-                    <Button variant="outlined" color="primary">
-                        Ajouter
+                <Box component="div" m={2}>
+                    <Button className={classes.btnRefresh} variant="outlined" color="primary">
+                        Actualiser
                     </Button>
-                </Link>
+                    <Link className={classes.btnAddContact} to={'/add'}>
+                        <Button variant="outlined" color="primary">
+                            Ajouter
+                        </Button>
+                    </Link>
+                </Box>
 
             </Box>
 
-            <ListContact loading={loading} error={error} data={data}/>
+            <ListContact loading={loadAllContact} error={errorLoadAllContact} data={dataAllContact}/>
         </div>
     )
 };
