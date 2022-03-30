@@ -11,6 +11,11 @@ import TableCell from "@material-ui/core/TableCell";
 import {gql, useMutation} from "@apollo/client";
 import deleteOneContact from "../../services/graphql/deleteOneContact";
 import HeaderComponent from "./HeaderComponent";
+import {CircularProgress} from "@material-ui/core";
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import FullScreenDialogComponent from "./FullScreenDialogComponent";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -18,7 +23,7 @@ const StyledTableCell = withStyles((theme) => ({
         color: theme.palette.common.white,
     },
     body: {
-        fontSize: 10,
+        fontSize: 15,
     },
 }))(TableCell);
 
@@ -51,6 +56,11 @@ const useStyles = makeStyles({
             background: "#FDAF75",
         },
     },
+    loaderCircle:{
+        display:"flex",
+        justifyContent:"center",
+        alignItems:"center",
+    }
 
 });
 
@@ -59,7 +69,8 @@ function ListContact({loading, error, data}) {
     const [mutateFunction, {dateDelete, loadingDelete, errorDelete}] = deleteOneContact()
     const classes = useStyles();
 
-    if (loading) return <p>Pas de donnée dans la liste</p>
+    if (loading) return <div className={classes.loaderCircle}>
+            <CircularProgress /></div>
     if (data) {
         if (data.getAllContact.length === 0) {
             return (<div className={classes.alert}>
@@ -81,6 +92,7 @@ function ListContact({loading, error, data}) {
                                 <StyledTableCell>Courriel</StyledTableCell>
                                 <StyledTableCell>Téléphone</StyledTableCell>
                                 <StyledTableCell>Ville</StyledTableCell>
+                                <StyledTableCell>Voir plus</StyledTableCell>
                                 <StyledTableCell>Mettre a jour</StyledTableCell>
                                 <StyledTableCell>Supprimer</StyledTableCell>
                             </TableRow>
@@ -96,8 +108,11 @@ function ListContact({loading, error, data}) {
                                     <StyledTableCell>{data.phone}</StyledTableCell>
                                     <StyledTableCell>{data.town}</StyledTableCell>
                                     <StyledTableCell>
+                                        <FullScreenDialogComponent data={data}/>
+                                    </StyledTableCell>
+                                    <StyledTableCell>
                                         <Link className={classes.btnStyle} to={`/update/${data.id}`}>
-                                            <Button variant="outlined" color="primary">
+                                            <Button variant="outlined" color="primary" startIcon={<EditIcon />}>
                                                 Modifier
                                             </Button>
                                         </Link>
@@ -110,7 +125,7 @@ function ListContact({loading, error, data}) {
                                         }).catch((error) => {
                                             console.log(JSON.stringify(error))
                                         })
-                                        } variant="contained" color="secondary">
+                                        } variant="contained" color="secondary" startIcon={<DeleteIcon />}>
                                             Supprimer
                                         </Button>
                                     </StyledTableCell>

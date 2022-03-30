@@ -39,7 +39,7 @@ const Home = () => {
     const firstUpdate = useRef(true)
     //if there are any changes in the data we will update the size of the list
     useEffect(()=>{
-        if(firstUpdate.current){
+        if(firstUpdate.current && !dataAllContact){
             firstUpdate.current = false
             return 0
         }
