@@ -13,6 +13,9 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import {useHistory} from "react-router-dom";
+
+
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -31,11 +34,17 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function FullScreenDialogComponent({data}) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
+    //Hook to perform a redirection after the registration of a contact
+    let history = useHistory();
 
     const handleClickOpen = () => {
         setOpen(true);
     };
 
+    const UpdateContact = () => {
+        history.push(`/update/${data.id}`)
+        setOpen(false);
+    };
     const handleClose = () => {
         setOpen(false);
     };
@@ -54,7 +63,7 @@ export default function FullScreenDialogComponent({data}) {
                         <Typography variant="h6" className={classes.title}>
                             Detail du contact
                         </Typography>
-                        <Button autoFocus color="inherit" onClick={handleClose}>
+                        <Button autoFocus color="inherit" onClick={UpdateContact}>
                             Modifier
                         </Button>
                     </Toolbar>

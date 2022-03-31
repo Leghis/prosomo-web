@@ -1,15 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {AutoField, AutoForm, ErrorsField, SubmitField} from "uniforms-material";
 import {bridge as schema} from "../../schema/Contact/ContactValidator";
-import {gql, useMutation, useQuery} from "@apollo/client";
 import {Link, Redirect, useHistory, useLocation, useParams} from "react-router-dom";
 import getOneContact from "../../services/graphql/getOneContact";
 import {Button, CircularProgress, Container} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import postOneContact from "../../services/graphql/postOneContact";
-import HeaderComponent from "../components/HeaderComponent";
 import updateOneContact from "../../services/graphql/updateOneContact";
-import {useForm} from "uniforms";
 
 
 const useStyles = makeStyles({
