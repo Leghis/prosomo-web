@@ -7,10 +7,9 @@ import {
     Route
 } from "react-router-dom";
 import {
-    ApolloClient,
+    ApolloClient,InMemoryCache,
     ApolloProvider, HttpLink
 } from "@apollo/client";
-import {InMemoryCache} from 'apollo-cache-inmemory'
 
 import Update from "./views/Update";
 import {ApolloProvider as ApolloHookProvider} from '@apollo/react-hooks';

@@ -9,8 +9,7 @@ import {Helmet} from 'react-helmet';
 import {renderToString} from "react-dom/server";
 import Loadable from 'react-loadable';
 import fetch from 'cross-fetch';
-import {InMemoryCache} from 'apollo-cache-inmemory'
-import {ApolloClient, ApolloProvider, HttpLink} from "@apollo/client";
+import {ApolloClient, ApolloProvider, HttpLink, InMemoryCache} from "@apollo/client";
 
 // Meteor.startup(() => {
 //   console.log('server ok')
