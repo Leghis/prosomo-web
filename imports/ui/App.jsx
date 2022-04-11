@@ -8,25 +8,31 @@ import {
 } from "react-router-dom";
 import {
     ApolloClient,
-    InMemoryCache,
-    ApolloProvider
+    ApolloProvider, HttpLink
 } from "@apollo/client";
+import {InMemoryCache} from 'apollo-cache-inmemory'
+
 import Update from "./views/Update";
+import {ApolloProvider as ApolloHookProvider} from '@apollo/react-hooks';
+import Home2 from "./views/Home2";
+import fetch from "cross-fetch";
 
 //connecting the Graphql client to the Apollo server
-const client = new ApolloClient({
-    uri: 'http://localhost:4000',
-    cache: new InMemoryCache()
-});
+const cache = new InMemoryCache();
+let client= new ApolloClient({
+    link: new HttpLink({uri: 'http://localhost:4000', fetch}),
+    cache
+})
 
 export const App = () => (
     <ApolloProvider client={client}>
-        <Router>
-            <Switch>
-                <Route exact path="/" component={Home}/>
-                <Route exact path="/add" component={Update}/>
-                <Route exact path="/update/:id" component={Update}/>
-            </Switch>
-        </Router>
+            <Router>
+                <Switch>
+                    <Route exact path="/" component={Home}/>
+                    <Route exact path="/add" component={Update}/>
+                    <Route exact path="/update/:id" component={Update}/>
+                </Switch>
+            </Router>
     </ApolloProvider>
+
 );
