@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {AutoField, AutoForm, ErrorsField, SubmitField} from "uniforms-material";
-import {bridge as schema} from "../../schema/Contact/ContactValidator";
+import {AutoField, AutoForm, ErrorsField, SubmitField, TextField} from "uniforms-material";
+// import {bridge as schema} from "../../schema/Contact/ContactValidator";
+import {bridge as schema} from "../../schema/GraphQLBridge/Contact/ContactSchema";
+
 import {Link, Redirect, useHistory, useLocation, useParams} from "react-router-dom";
 import getOneContact from "../../services/graphql/getOneContact";
 import {Button, CircularProgress, Container} from "@material-ui/core";
@@ -42,7 +44,7 @@ const Update = () => {
     const [updateContact, {dataUpdateContact, loadingUpdate, errorUpdateContact}] = updateOneContact()
 
     //this hook will allow us to store the values of a contact if it exists
-    const [FormValue, setFormValue] = useState({})
+    const [FormValue, setFormValue] = useState(null)
 
     //this hook allows to store a boolean which will display a loader while waiting
     // for the data to be filled on the form if an id has been passed in parameter
@@ -57,12 +59,10 @@ const Update = () => {
     useEffect(() => {
         if (load) setLoading(load)
         if (failed) setError(true)
-        if (response) setFormValue((response.getContact))
+        if (response){
+            setFormValue(response.getContact)
+        }
     }, [load, failed, response])
-
-    const changeDataForm = (e) => {
-        console.log(e)
-    }
 
     return (
         <div>
@@ -82,7 +82,7 @@ const Update = () => {
                  has been passed in parameter*/}
                 {
                     FormValue &&
-                    <AutoForm schema={schema} onSubmit={e =>
+                    <AutoForm model={FormValue} schema={schema} onSubmit={e =>
                         updateContact(
                             {
                                 variables: {
@@ -113,7 +113,7 @@ const Update = () => {
                 so we will just display an empty form*/}
                 {
                     !id &&
-                    <AutoForm schema={schema} onSubmit={e =>
+                    <AutoForm placeholder schema={schema} onSubmit={e =>
                         CreateContact({
                             variables: {
                                 "contact": {
