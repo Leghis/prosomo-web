@@ -9,8 +9,7 @@ import Update from "../imports/ui/views/Update";
 //Configuring the Apollo Client
 export const client = new ApolloClient({
     uri: 'http://localhost:4000/',
-    cache: new InMemoryCache(),
-    ssrForceFetchDelay: 100,
+    cache: new InMemoryCache().restore(window.__APOLLO_STATE__),
 });
 
 onPageLoad(() => {

@@ -21,7 +21,8 @@ onPageLoad(async (sink) => {
             }), cache: new InMemoryCache(),
         }),
     };
-    const App = () => (
+
+    const App =  () => (
         <ApolloProvider client={context.client}>
             <StaticRouter location={sink.request.url} context={context}>
                 <Home/>

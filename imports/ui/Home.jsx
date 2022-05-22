@@ -28,10 +28,17 @@ const useStyles = makeStyles({
 })
 
 
-const Home = () => {
+const Home =  () => {
     const classes = useStyles()
     //hook for storing the number of available contacts
     const [contactNumber, setContactNumber] = useState(0)
+
+    if (typeof window !== 'undefined') {
+        //here `window` is available
+        console.log(window.__APOLLO_STATE__["Contact:cd679a2d-9657-46fe-81c1-0824ee02409c"])
+
+    }
+
 
     //Data loading
     const { loadAllContact, errorLoadAllContact, dataAllContact } = getAllContact()
