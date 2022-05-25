@@ -14,7 +14,8 @@ onPageLoad(async (sink) => {
     //Configuration of the context with the different parameters related to the ssr
     const context = {
         client: new ApolloClient({
-            ssrMode: true, link: createHttpLink({
+            ssrMode: true,
+          link: createHttpLink({
                 uri: 'http://localhost:4000', credentials: 'same-origin', headers: {
                     // cookie: req.header('Cookie'),
                 }, fetch
