@@ -21,12 +21,12 @@ const getAll = gql`
   }`
 
 const getllContact = (page, rowsPerPage) => {
-  const {loading, error, data, fetchMore} = useQuery(getAll, {
+  const {loading, error, data} = useQuery(getAll, {
       variables: {
         perPage: rowsPerPage,
         page: page
       },
-      pollInterval: 500,
+      pollInterval: 1000,
     }
   )
 
