@@ -37,26 +37,6 @@ const Home = () => {
 
 
   const firstUpdate = useRef(true)
-  //if there are any changes in the data we will update the size of the list
-  // useEffect(() => {
-  //   if (firstUpdate.current && !dataAllContact) {
-  //     firstUpdate.current = false
-  //     return 0
-  //   }
-  //   setContactNumber(dataAllContact.getAllContact.length)
-  // },[dataAllContact])
-
-  // const nextPage =  (Page) => {
-  //   // setPage(Page)
-  //   console.log(`Parent  ${newvalu}`)
-  //   // fetchMore({
-  //   //   variables: {
-  //   //     page: page
-  //   //   },
-  //   // })
-  // }
-
-
   return (
     <div>
       <HeaderComponent/>
@@ -65,9 +45,11 @@ const Home = () => {
           Liste de contact : {contactNumber}
         </Typography>
         <Box component="div" m={2}>
-          <Button className={classes.btnRefresh} variant="outlined" color="primary">
-            Actualiser
-          </Button>
+          <Link className={classes.btnReport} to={'/report'}>
+            <Button className={classes.btnRefresh} variant="outlined" color="primary">
+              Repport
+            </Button>
+          </Link>
           <Link className={classes.btnAddContact} to={'/add'}>
             <Button variant="outlined" color="primary">
               Ajouter

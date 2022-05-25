@@ -7,6 +7,7 @@ import Home from "../imports/ui/Home";
 import Update from "../imports/ui/views/Update";
 import {persistCache} from "apollo3-cache-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ReportView from "../imports/ui/views/ReportView";
 
 let cache = new InMemoryCache().restore(window.__APOLLO_STATE__)
 
@@ -31,6 +32,7 @@ onPageLoad(() => {
           <Route exact path="/" component={Home}/>
           <Route exact path="/add" component={Update}/>
           <Route exact path="/update/:id" component={Update}/>
+          <Route exact path="/report" component={ReportView}/>
         </Switch>
       </Router>
     </ApolloProvider>, document.getElementById('react-target'));
