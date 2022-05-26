@@ -39,13 +39,12 @@ const Home = () => {
   const firstUpdate = useRef(true)
   return (
     <div>
-      <HeaderComponent/>
       <Box className={classes.headerBox} component="span" m={1}>
         <Typography className={classes.contactTitle} variant="h5" gutterBottom>
           Liste de contact : {contactNumber}
         </Typography>
         <Box component="div" m={2}>
-          <Link className={classes.btnReport} to={'/report'}>
+          <Link className={classes.btnAddContact} to={'/report'}>
             <Button className={classes.btnRefresh} variant="outlined" color="primary">
               Repport
             </Button>

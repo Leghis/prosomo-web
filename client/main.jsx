@@ -8,6 +8,7 @@ import Update from "../imports/ui/views/Update";
 import {persistCache} from "apollo3-cache-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ReportView from "../imports/ui/views/ReportView";
+import HeaderComponent from "../imports/ui/components/HeaderComponent";
 
 let cache = new InMemoryCache().restore(window.__APOLLO_STATE__)
 
@@ -27,6 +28,7 @@ export const client = new ApolloClient({
 onPageLoad(() => {
   ReactDOM.render(
     <ApolloProvider client={client}>
+      <HeaderComponent/>
       <Router>
         <Switch>
           <Route exact path="/" component={Home}/>
