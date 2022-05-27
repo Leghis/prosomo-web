@@ -1,18 +1,16 @@
 import React, {useEffect, useState} from "react";
 import {AutoField, AutoForm, ErrorsField, SubmitField, TextField} from "uniforms-material";
-// import {bridge as schema} from "../../schema/Contact/ContactValidator";
 import {bridge as schema} from "../../schema/GraphQLBridge/Contact/ContactSchema";
-
 import {Link, Redirect, useHistory, useLocation, useParams} from "react-router-dom";
 import getOneContact from "../../services/graphql/getOneContact";
 import {Button, CircularProgress, Container} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
 import postOneContact from "../../services/graphql/postOneContact";
 import updateOneContact from "../../services/graphql/updateOneContact";
+import {makeStyles} from "@material-ui/core/styles";
 
-let useStyles = makeStyles({
+const useStyles = makeStyles({
   root: {
-    marginTop:10
+    marginTop: 10
   },
   containerLoader: {
     display: "flex",
@@ -27,7 +25,7 @@ let useStyles = makeStyles({
 
 const Update = () => {
   //css style
-  let classes =  useStyles();
+  let [classes, setClasses] = useState(useStyles());
 
   //get the id
   let {id} = useParams();
@@ -57,30 +55,26 @@ const Update = () => {
 
   //We have used a Hook useEffect here to avoid multiple rendering
   // and to render when loadn failled or response is modified
-  useEffect(  () => {
-      if (load) setLoading(load)
-      if (failed) setError(true)
-      if (response) {
-        setFormValue(response.getContact)
-      }
+  useEffect(() => {
+    if (load) setLoading(load)
+    if (failed) setError(true)
+    if (response) {
+      setFormValue(response.getContact)
+    }
   }, [load, failed, response])
 
-  useEffect(() => {
-    return () => {
-      classes = null
-    };
-  }, []);
-
+  const click = ()=>{
+    history.goBack()
+  }
 
 
   return (
     <div className={classes.root}>
-      <Link className={classes.btnBack} to={'/'}>
-        <Button variant="outlined" color="primary">
+      <Button onClick={click} variant="outlined" color="primary">
+        <Link className={classes.btnBack} to={'/'}>
           Retour vers la page d'accueil
-        </Button>
-
-      </Link>
+        </Link>
+      </Button>
       <Container className={classes.containerLoader} maxWidth="sm">
         {/*while the page is loading, display a loader*/}
         {
@@ -91,8 +85,8 @@ const Update = () => {
                  has been passed in parameter*/}
         {
           FormValue &&
-          <AutoForm model={FormValue} schema={schema} onSubmit={ (e) =>
-             updateContact(
+          <AutoForm model={FormValue} schema={schema} onSubmit={(e) =>
+            updateContact(
               {
                 variables: {
                   "contact": {
@@ -109,8 +103,8 @@ const Update = () => {
                   },
                   "refreshContactId": id,
                 }
-              }).then( () => {
-               history.push('/')
+              }).then(() => {
+              click()
             }).catch(error => {
               console.log(error.message)
             })
