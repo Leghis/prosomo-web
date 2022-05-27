@@ -14,9 +14,7 @@ const getFilterBox =  (Box) => {
     {
       variables: {
         box: Box
-      },
-      pollInterval: 1000
-    })
+      },})
   return {
     loadFilterB: loading,
     errorFilterB: error,
