@@ -47,20 +47,25 @@ function ReportView() {
   useEffect(() => {
     let tab = []
     tab.push({value: "Tout", label: "Tout"})
-    dataRegion.getRegions.map(res => {
-      tab.push({value: res, label: res})
-    })
+    if(dataRegion){
+      dataRegion.getRegions.map(res => {
+        tab.push({value: res, label: res})
+      })
+    }
+    console.log(tab)
     setregions(tab)
-  }, [dataRegion.getRegions]);
+  }, [dataRegion]);
 
   useEffect(() => {
     let tab = []
     tab.push({value: "Tout", label: "Tout"})
-    dataBox.getBox.map(res => {
-      tab.push({value: res, label: res})
-    })
+    if(dataBox){
+      dataBox.getBox.map(res => {
+        tab.push({value: res, label: res})
+      })
+    }
     setBox(tab)
-  }, [dataBox.getBox]);
+  }, [dataBox]);
 
 
   const HandleSelectRegion = (e) => {

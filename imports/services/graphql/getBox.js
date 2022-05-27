@@ -6,7 +6,9 @@ const getAllbox = gql`
   }`
 
 const getBox = () => {
-  const {loading, error, data} = useQuery(getAllbox)
+  const {loading, error, data} = useQuery(getAllbox,{
+    pollInterval: 1000
+  })
 
   return {
     loadBox : loading,

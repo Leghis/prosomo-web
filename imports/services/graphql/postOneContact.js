@@ -17,7 +17,11 @@ const createContact = gql`
   }
 `
 const postOneContact = () => {
-  const [CreateContact, {data, loading, error}] = useMutation(createContact)
+  const [CreateContact, {data, loading, error,client}] = useMutation(createContact,{
+    async update(cache,result){
+      await client.resetStore()
+    }
+  })
 
   return [CreateContact, {dataCreateContact: data, loadingContact: loading, errorCreateContact: error}]
 }

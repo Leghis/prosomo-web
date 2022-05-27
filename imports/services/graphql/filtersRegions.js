@@ -14,7 +14,8 @@ const getFilterRegions =  (regions) => {
     {
       variables: {
         region: regions
-      }
+      },
+      pollInterval: 1000
     })
 
   return {

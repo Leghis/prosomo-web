@@ -74,11 +74,10 @@ function ListContact() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
-    console.log(`page au niveau de la liste ${newPage}`)
+    // console.log(`page au niveau de la liste ${newPage}`)
   };
 
   const handleChangeRowsPerPage = (event) => {
-    console.assert(`Event ${event.target.value}`)
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
@@ -94,7 +93,6 @@ function ListContact() {
   if (loading) return <div className={classes.loaderCircle}>
     <CircularProgress/></div>
   if (data) {
-    console.log(data)
     if (data.getAllContact === null) {
       return (<div className={classes.alert}>
         <span>Liste de contact vide</span>

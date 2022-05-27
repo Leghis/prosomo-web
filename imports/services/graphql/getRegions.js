@@ -5,9 +5,12 @@ const getAllRegion = gql`
     getRegions
   }`
 
-const getRegions = () => {
-  const {loading, error, data} = useQuery(getAllRegion)
+const getRegions =  () => {
+  const {loading, error, data} =  useQuery(getAllRegion,{
+    pollInterval: 1000
+  })
 
+  console.log(data)
   return {
     loadRegion : loading,
     errorRegion : error,

@@ -70,7 +70,7 @@ const Update = () => {
 
   return (
     <div className={classes.root}>
-      <Button onClick={click} variant="outlined" color="primary">
+      <Button variant="outlined" color="primary">
         <Link className={classes.btnBack} to={'/'}>
           Retour vers la page d'accueil
         </Link>

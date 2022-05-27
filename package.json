@@ -30,10 +30,7 @@
     "react-select": "^5.3.2",
     "uniforms": "^3.8.1",
     "uniforms-bridge-graphql": "^3.8.1",
-    "uniforms-bridge-json-schema": "^3.8.1",
-    "uniforms-material": "^3.8.1",
-    "uuid": "^8.3.2"
-  },
+    "uniforms-material": "^3.8.1"},
   "meteor": {
     "mainModule": {
       "client": "client/main.jsx",
