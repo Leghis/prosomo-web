@@ -83,6 +83,13 @@ function ListContact() {
     setPage(0);
   };
 
+  // useEffect(() => {
+  //   return () => {
+  //     data = null
+  //   };
+  // }, [data]);
+
+
 
   if (loading) return <div className={classes.loaderCircle}>
     <CircularProgress/></div>

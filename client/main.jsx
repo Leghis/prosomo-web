@@ -9,6 +9,12 @@ import {persistCache} from "apollo3-cache-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ReportView from "../imports/ui/views/ReportView";
 import HeaderComponent from "../imports/ui/components/HeaderComponent";
+import {SelectionSetNode} from "graphql";
+import {FragmentMap} from "@apollo/client/utilities";
+import {StoreObject} from "apollo-cache-inmemory";
+import {FieldPolicy} from "@apollo/client";
+import {FieldReadFunction} from "@apollo/client";
+import {StoreValue} from "@apollo/client";
 
 let cache = new InMemoryCache().restore(window.__APOLLO_STATE__)
 
@@ -20,7 +26,7 @@ persistCache({
 //Configuring the Apollo Client
 export const client = new ApolloClient({
   uri: 'http://localhost:4000/',
-  cache: cache
+  cache: cache,
 });
 
 

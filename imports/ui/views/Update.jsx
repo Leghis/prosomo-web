@@ -10,8 +10,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import postOneContact from "../../services/graphql/postOneContact";
 import updateOneContact from "../../services/graphql/updateOneContact";
 
-
-const useStyles = makeStyles({
+let useStyles = makeStyles({
   root: {
     marginTop:10
   },
@@ -27,12 +26,11 @@ const useStyles = makeStyles({
 });
 
 const Update = () => {
-
   //css style
-  const classes = useStyles();
+  let classes =  useStyles();
 
   //get the id
-  const {id} = useParams();
+  let {id} = useParams();
 
   //Hook to perform a redirection after the registration of a contact
   let history = useHistory();
@@ -59,13 +57,21 @@ const Update = () => {
 
   //We have used a Hook useEffect here to avoid multiple rendering
   // and to render when loadn failled or response is modified
-  useEffect(() => {
-    if (load) setLoading(load)
-    if (failed) setError(true)
-    if (response) {
-      setFormValue(response.getContact)
-    }
+  useEffect(  () => {
+      if (load) setLoading(load)
+      if (failed) setError(true)
+      if (response) {
+        setFormValue(response.getContact)
+      }
   }, [load, failed, response])
+
+  useEffect(() => {
+    return () => {
+      classes = null
+    };
+  }, []);
+
+
 
   return (
     <div className={classes.root}>
@@ -85,8 +91,8 @@ const Update = () => {
                  has been passed in parameter*/}
         {
           FormValue &&
-          <AutoForm model={FormValue} schema={schema} onSubmit={e =>
-            updateContact(
+          <AutoForm model={FormValue} schema={schema} onSubmit={ (e) =>
+             updateContact(
               {
                 variables: {
                   "contact": {
@@ -103,9 +109,8 @@ const Update = () => {
                   },
                   "refreshContactId": id,
                 }
-              }).then(r => {
-              console.log(JSON.stringify(r))
-              history.push('/')
+              }).then( () => {
+               history.push('/')
             }).catch(error => {
               console.log(error.message)
             })
@@ -133,7 +138,6 @@ const Update = () => {
                 }
               }
             }).then(r => {
-              console.log(JSON.stringify(r))
               history.push('/')
             }).catch(error => {
               console.log(error.message)

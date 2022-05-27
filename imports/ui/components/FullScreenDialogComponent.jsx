@@ -42,7 +42,7 @@ export default function FullScreenDialogComponent({data}) {
     };
 
     const UpdateContact = () => {
-        history.push(`/update/${data.id}`)
+        history.push(`/update/${data._id}`)
         setOpen(false);
     };
     const handleClose = () => {
