@@ -87,7 +87,8 @@ function ListContact() {
   if (loading) return <div className={classes.loaderCircle}>
     <CircularProgress/></div>
   if (data) {
-    if (data.getAllContact.data.length === 0) {
+    console.log(data)
+    if (data.getAllContact === null) {
       return (<div className={classes.alert}>
         <span>Liste de contact vide</span>
         <svg xmlns="http://www.w3.org/2000/svg" width={25} fill="none" viewBox="0 0 24 24" stroke="currentColor"
