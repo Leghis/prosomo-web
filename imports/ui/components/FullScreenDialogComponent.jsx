@@ -14,6 +14,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import {useHistory} from "react-router-dom";
+import {ListItemIcon} from "@material-ui/core";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 
 
@@ -51,9 +53,16 @@ export default function FullScreenDialogComponent({data}) {
 
     return (
         <div>
-            <Button variant="outlined" color="secondary" startIcon={<MoreVertIcon />} onClick={handleClickOpen}>
-                plus d'info
-            </Button>
+            {/*<Button variant="outlined" color="secondary" */}
+            {/*        startIcon={<MoreVertIcon />} onClick={handleClickOpen}>*/}
+            {/*    plus d'info*/}
+            {/*</Button>*/}
+
+          <ListItem onClick={handleClickOpen} button>
+            <ListItemIcon><MoreVertIcon/></ListItemIcon>
+            <ListItemText primary={"Plus d'information"}/>
+          </ListItem>
+
             <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
                 <AppBar className={classes.appBar}>
                     <Toolbar>

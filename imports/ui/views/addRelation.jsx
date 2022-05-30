@@ -2,11 +2,11 @@ import React, {useEffect, useState} from "react";
 import {AutoField, AutoForm, ErrorsField, SubmitField, TextField} from "uniforms-material";
 import {bridge as schema} from "../../schema/GraphQLBridge/Contact/ContactSchema";
 import {Link, Redirect, useHistory, useLocation, useParams} from "react-router-dom";
-import getOneContact from "../../services/graphql/Contact/getOneContact";
 import {Button, CircularProgress, Container} from "@material-ui/core";
-import postOneContact from "../../services/graphql/Contact/postOneContact";
 import updateOneContact from "../../services/graphql/Contact/updateOneContact";
 import {makeStyles} from "@material-ui/core/styles";
+import postOneRelation from "../../services/graphql/Relation/CreateRelation";
+import getOneRelation from "../../services/graphql/Relation/getOneRelation";
 
 const useStyles = makeStyles({
   root: {
@@ -23,12 +23,12 @@ const useStyles = makeStyles({
   }
 });
 
-const Update = () => {
+const addRelation = () => {
   //css style
   let [classes, setClasses] = useState(useStyles());
 
   //get the id
-  let {id} = useParams();
+  let {contactID, id} = useParams();
 
   //Hook to perform a redirection after the registration of a contact
   let history = useHistory();
@@ -36,10 +36,10 @@ const Update = () => {
 
   //Utiliser le service getOneContact pour récupérer les informations d'un
   // contact afin de les afficher dans le formulaire si l'id est existant
-  const {load, failed, response} = getOneContact(id)
+  const {load, failed, response} = getOneRelation(id)
 
 
-  const [CreateContact, {dataCreateContact, loadingContact, errorCreateContact}] = postOneContact()
+  const [CreateRelation] = postOneRelation()
   const [updateContact, {dataUpdateContact, loadingUpdate, errorUpdateContact}] = updateOneContact()
 
   //this hook will allow us to store the values of a contact if it exists
@@ -116,9 +116,10 @@ const Update = () => {
         {
           !id &&
           <AutoForm placeholder schema={schema} onSubmit={e =>
-            CreateContact({
+            CreateRelation({
               variables: {
-                "contact": {
+                "relation": {
+                  contactID:contactID,
                   box: e.box,
                   surname: e.surname,
                   name: e.name,
@@ -132,7 +133,7 @@ const Update = () => {
                 }
               }
             }).then(r => {
-              history.push('/')
+              history.goBack()
             }).catch(error => {
               console.log(error.message)
             })
@@ -143,4 +144,4 @@ const Update = () => {
   )
 }
 
-export default Update
+export default addRelation

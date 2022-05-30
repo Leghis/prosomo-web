@@ -9,14 +9,16 @@ import TableContainer from "@material-ui/core/TableContainer";
 import {makeStyles, withStyles} from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";
 import {gql, useMutation} from "@apollo/client";
-import deleteOneContact from "../../services/graphql/deleteOneContact";
+import deleteOneContact from "../../services/graphql/Contact/deleteOneContact";
 import HeaderComponent from "./HeaderComponent";
 import {CircularProgress, TablePagination} from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import FullScreenDialogComponent from "./FullScreenDialogComponent";
-import getAllContact from "../../services/graphql/getAllContact";
+import getAllContact from "../../services/graphql/Contact/getAllContact";
+import ListOfRelations from "./modal/ListOfRelations"
+import DrawerComponent from "./DrawerComponent"
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -40,9 +42,11 @@ const useStyles = makeStyles({
   table: {
     minWidth: 500,
   },
+
   btnStyle: {
     textDecoration: "none"
   },
+
   alert: {
     backgroundColor: "#FDD7AA",
     padding: "20px",
@@ -56,6 +60,7 @@ const useStyles = makeStyles({
       background: "#FDAF75",
     },
   },
+
   loaderCircle: {
     display: "flex",
     justifyContent: "center",
@@ -82,13 +87,6 @@ function ListContact() {
     setPage(0);
   };
 
-  // useEffect(() => {
-  //   return () => {
-  //     data = null
-  //   };
-  // }, [data]);
-
-
 
   if (loading) return <div className={classes.loaderCircle}>
     <CircularProgress/></div>
@@ -112,10 +110,7 @@ function ListContact() {
                 <StyledTableCell>Nom</StyledTableCell>
                 <StyledTableCell>Courriel</StyledTableCell>
                 <StyledTableCell>Téléphone</StyledTableCell>
-                <StyledTableCell>Ville</StyledTableCell>
-                <StyledTableCell>Voir plus</StyledTableCell>
-                <StyledTableCell>Mettre a jour</StyledTableCell>
-                <StyledTableCell>Supprimer</StyledTableCell>
+                <StyledTableCell>Options</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -127,28 +122,9 @@ function ListContact() {
                   <StyledTableCell>{data.name}</StyledTableCell>
                   <StyledTableCell>{data.email}</StyledTableCell>
                   <StyledTableCell>{data.phone}</StyledTableCell>
-                  <StyledTableCell>{data.town}</StyledTableCell>
                   <StyledTableCell>
-                    <FullScreenDialogComponent data={data}/>
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    <Link className={classes.btnStyle} to={`/update/${data._id}`}>
-                      <Button variant="outlined" color="primary" startIcon={<EditIcon/>}>
-                        Modifier
-                      </Button>
-                    </Link>
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    <Button onClick={() => mutateFunction(
-                      {variables: {deleteContactId: data._id}}
-                    ).then((response) => {
-                      console.log(JSON.stringify(response))
-                    }).catch((error) => {
-                      console.log(JSON.stringify(error))
-                    })
-                    } variant="contained" color="secondary" startIcon={<DeleteIcon/>}>
-                      Supprimer
-                    </Button>
+                    {/*Drawer menu option*/}
+                    <DrawerComponent data={data} id={data._id}/>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}

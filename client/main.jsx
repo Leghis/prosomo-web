@@ -7,6 +7,7 @@ import Home from "../imports/ui/Home";
 import Update from "../imports/ui/views/Update";
 import ReportView from "../imports/ui/views/ReportView";
 import HeaderComponent from "../imports/ui/components/HeaderComponent";
+import addRelation from "../imports/ui/views/addRelation";
 
 
 
@@ -30,6 +31,8 @@ onPageLoad(() => {
           <Route exact path="/add" component={Update}/>
           <Route exact path="/update/:id" component={Update}/>
           <Route exact path="/report" component={ReportView}/>
+          <Route exact path="/addRelation/:contactID" component={addRelation}/>
+          <Route exact path="/updateRelation/:id" component={addRelation}/>
         </Switch>
       </Router>
     </ApolloProvider>, document.getElementById('react-target'));
