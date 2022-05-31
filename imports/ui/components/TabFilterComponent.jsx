@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {Typography} from "@material-ui/core";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles({
   table: {
@@ -19,6 +20,8 @@ const useStyles = makeStyles({
 const rows = null
 
 export default function TabFilterComponent({data, header, msg}) {
+  const { t, i18n } = useTranslation();
+
   let total = null
   data.map(res=>{
     total+=res.total
@@ -38,7 +41,7 @@ export default function TabFilterComponent({data, header, msg}) {
             </TableCell>
             <TableCell>
               <Typography variant="h6" gutterBottom>
-                Total
+                {t("total")}
               </Typography>
             </TableCell>
           </TableRow>
@@ -55,7 +58,7 @@ export default function TabFilterComponent({data, header, msg}) {
           <TableRow>
             <TableCell>
               <Typography variant="h6" gutterBottom>
-                Total
+                {t("total")}
               </Typography>
             </TableCell>
             <TableCell>

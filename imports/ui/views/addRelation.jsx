@@ -8,6 +8,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import postOneRelation from "../../services/graphql/Relation/CreateRelation";
 import getOneRelation from "../../services/graphql/Relation/getOneRelation";
 import updateOneRelation from "../../services/graphql/Relation/updateOneRelation";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles({
   root: {
@@ -33,6 +34,9 @@ const addRelation = () => {
 
   //Hook to perform a redirection after the registration of a contact
   let history = useHistory();
+
+  const { t, i18n } = useTranslation();
+
 
 
   //Utiliser le service getOneContact pour récupérer les informations d'un
@@ -73,7 +77,7 @@ const addRelation = () => {
     <div className={classes.root}>
       <Button variant="outlined" color="primary">
         <Link className={classes.btnBack} to={'/'}>
-          Retour vers la page d'accueil
+          {t("retourVersLaPageDaccueil")}
         </Link>
       </Button>
       <Container className={classes.containerLoader} maxWidth="sm">

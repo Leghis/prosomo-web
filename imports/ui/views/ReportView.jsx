@@ -7,6 +7,7 @@ import getRegions from "../../services/graphql/getRegions";
 import getFilterRegions from "../../services/graphql/filtersRegions";
 import getBox from "../../services/graphql/getBox";
 import getFilterBox from "../../services/graphql/filtersBox";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles({
   root: {
@@ -33,6 +34,8 @@ function ReportView() {
   const classes = useStyles();
   const [regions, setregions] = useState(null)
   const [box, setBox] = useState(null)
+  const { t, i18n } = useTranslation();
+
 
   const [selectRegion, setSelectRegion] = useState("Tout")
   const [selectBox, setSelectBox] = useState("Tout")
@@ -83,13 +86,13 @@ function ReportView() {
       <div className={classes.reactSelect}>
         <div className={classes.test}>
           <Typography variant="subtitle2" component="h6" gutterBottom>
-            Filtre par province
+            {t("filtreParProvince")}
           </Typography>
           <ReactSelect valueselect={HandleSelectRegion} options={regions}/>
         </div>
         <div className={classes.test}>
           <Typography variant="subtitle2" component="h6" gutterBottom>
-            Filtre par boite postal
+            {t("filtreParBoitePostal")}
           </Typography>
           <ReactSelect valueselect={HandleSelectBp} options={box}/>
         </div>
@@ -97,12 +100,12 @@ function ReportView() {
       <div className={classes.showTable}>
         <div className={classes.showTableItem}>
           {
-            dataFilterR && <TabFilterComponent msg={"Tableau de filtre de regions"} header={ {Name:"Region"} } data={dataFilterR.filterRegion}/>
+            dataFilterR && <TabFilterComponent msg={t("tableauDeFiltreDeRegions")} header={ {Name:t("table.region")} } data={dataFilterR.filterRegion}/>
           }
         </div>
         <div className={classes.showTableItem}>
           {
-            dataFilterB && <TabFilterComponent msg={"Tableau de filtre de boite postale"} header={ {Name:"Code postal"} } data={dataFilterB.filterBox}/>
+            dataFilterB && <TabFilterComponent msg={t("tableauDeFiltreDeBoitePostale")} header={ {Name:t("table.bp")} } data={dataFilterB.filterBox}/>
           }
         </div>
       </div>

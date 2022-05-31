@@ -34,7 +34,8 @@
     "react-window": "^1.8.7",
     "uniforms": "^3.8.1",
     "uniforms-bridge-graphql": "^3.8.1",
-    "uniforms-material": "^3.8.1"
+    "uniforms-material": "^3.8.1",
+    "universal-cookie": "^4.0.4"
   },
   "meteor": {
     "mainModule": {

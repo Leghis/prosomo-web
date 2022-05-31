@@ -16,7 +16,7 @@ const getAll = gql`
         country
         comment1
         comment2
-        DefaultRelation {
+        defaultRelation {
           _id
           contactID
           surname

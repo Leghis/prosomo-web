@@ -17,6 +17,7 @@ import FullScreenDialogComponent from "./FullScreenDialogComponent";
 import {Link} from "react-router-dom";
 import DeleteIcon from "@material-ui/icons/Delete";
 import deleteOneContact from "../../services/graphql/Contact/deleteOneContact";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles({
   list: {
@@ -39,6 +40,8 @@ export default function DrawerComponent({id, data}) {
     bottom: false,
     right: false,
   });
+  const {t, i18n} = useTranslation();
+
   const [mutateFunction, {dateDelete, loadingDelete, errorDelete}] = deleteOneContact()
 
 
@@ -59,7 +62,7 @@ export default function DrawerComponent({id, data}) {
       {/*onClick={toggleDrawer(anchor, false)}*/}
       {/*onKeyDown={toggleDrawer(anchor, false)}*/}
       <List>
-        <ListOfRelations defaulContact={data.DefaultRelation} id={id}/>
+        <ListOfRelations defaulContact={data.defaultRelation} id={id}/>
         <FullScreenDialogComponent data={data}/>
       </List>
       <Divider/>
@@ -67,7 +70,7 @@ export default function DrawerComponent({id, data}) {
         <Link className={classes.btnStyle} to={`/update/${data._id}`}>
           <ListItem button>
             <ListItemIcon><EditIcon/></ListItemIcon>
-            <ListItemText primary={"Modifier"}/>
+            <ListItemText primary={t("table.options")}/>
           </ListItem>
         </Link>
 
@@ -81,7 +84,7 @@ export default function DrawerComponent({id, data}) {
         })
         } button>
           <ListItemIcon><DeleteIcon/></ListItemIcon>
-          <ListItemText primary={"Supprimer"}/>
+          <ListItemText primary={t("supprimer")}/>
         </ListItem>
       </List>
     </div>
@@ -95,7 +98,7 @@ export default function DrawerComponent({id, data}) {
                   variant="outlined"
                   color="primary"
                   startIcon={<SettingsIcon/>}>
-            Options
+            {t("table.options")}
           </Button>
 
           <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>

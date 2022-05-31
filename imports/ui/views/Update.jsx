@@ -7,6 +7,7 @@ import {Button, CircularProgress, Container} from "@material-ui/core";
 import postOneContact from "../../services/graphql/Contact/postOneContact";
 import updateOneContact from "../../services/graphql/Contact/updateOneContact";
 import {makeStyles} from "@material-ui/core/styles";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles({
   root: {
@@ -26,6 +27,8 @@ const useStyles = makeStyles({
 const Update = () => {
   //css style
   let [classes, setClasses] = useState(useStyles());
+  const { t, i18n } = useTranslation();
+
 
   //get the id
   let {id} = useParams();
@@ -72,7 +75,7 @@ const Update = () => {
     <div className={classes.root}>
       <Button variant="outlined" color="primary">
         <Link className={classes.btnBack} to={'/'}>
-          Retour vers la page d'accueil
+          {t("retourVersLaPageDaccueil")}
         </Link>
       </Button>
       <Container className={classes.containerLoader} maxWidth="sm">

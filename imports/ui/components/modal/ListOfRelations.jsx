@@ -11,6 +11,7 @@ import {Link} from "react-router-dom";
 import getAllRelation from "../../../services/graphql/Relation/getAllRelation";
 import {Alert} from "@material-ui/lab";
 import StarsIcon from '@material-ui/icons/Stars';
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -38,6 +39,8 @@ export default function ListOfRelations({id, defaulContact}) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const {loading, error, data} = getAllRelation(id)
+  const { t, i18n } = useTranslation();
+
 
   const handleOpen = () => {
     setOpen(true);
@@ -72,7 +75,7 @@ export default function ListOfRelations({id, defaulContact}) {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h2 id="transition-modal-title">Liste de relations</h2>
+            <h2 id="transition-modal-title">{t("listeDeRelations")}</h2>
 
 
             <ListItem>
@@ -84,7 +87,7 @@ export default function ListOfRelations({id, defaulContact}) {
               {
                 defaulContact ? <ListItemText
                   primary={defaulContact.name}
-                  secondary={defaulContact.phone}/> : <ListItemText primary={"Aucun contact principal"}/>
+                  secondary={defaulContact.phone}/> : <ListItemText primary={t("aucunContactPrincipal")}/>
               }
 
             </ListItem>
@@ -92,7 +95,7 @@ export default function ListOfRelations({id, defaulContact}) {
             {/*liste deroulante de contact*/}
             {
               data ? data.getAllRelation.length === 0 ?
-                <Alert icon={false} severity="success">Liste de contact vide</Alert> :
+                <Alert icon={false} severity="success">{t("listeDeContactVide")}</Alert> :
                 <VirtualizedListRelations defaulContact={defaulContact} data={data}/> : ""
             }
 
@@ -100,7 +103,7 @@ export default function ListOfRelations({id, defaulContact}) {
             <div className={classes.addRelation}>
               <Button className={classes.addRelation} variant="outlined" color="primary" startIcon={<AddIcon/>}>
                 <Link className={classes.textButton} to={"/addRelation/" + id}>
-                  Ajouter une relation
+                  {t("ajouterUneRelation")}
                 </Link>
               </Button>
             </div>

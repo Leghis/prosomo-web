@@ -19,6 +19,7 @@ import FullScreenDialogComponent from "./FullScreenDialogComponent";
 import getAllContact from "../../services/graphql/Contact/getAllContact";
 import ListOfRelations from "./modal/ListOfRelations"
 import DrawerComponent from "./DrawerComponent"
+import {useTranslation} from "react-i18next";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -76,6 +77,8 @@ function ListContact() {
   const {loading, error, data} = getAllContact(page, rowsPerPage)
   const [mutateFunction, {dateDelete, loadingDelete, errorDelete}] = deleteOneContact()
   const classes = useStyles();
+  const {t, i18n} = useTranslation();
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -106,11 +109,11 @@ function ListContact() {
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
-                <StyledTableCell>Prénom</StyledTableCell>
-                <StyledTableCell>Nom</StyledTableCell>
-                <StyledTableCell>Courriel</StyledTableCell>
-                <StyledTableCell>Téléphone</StyledTableCell>
-                <StyledTableCell>Options</StyledTableCell>
+                <StyledTableCell>{t("table.prenom")}</StyledTableCell>
+                <StyledTableCell>{t("table.nom")}</StyledTableCell>
+                <StyledTableCell>{t("table.courriel")}</StyledTableCell>
+                <StyledTableCell>{t("table.telephone")}</StyledTableCell>
+                <StyledTableCell>{t("table.options")}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>

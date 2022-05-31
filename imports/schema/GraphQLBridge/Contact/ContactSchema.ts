@@ -84,7 +84,7 @@ const validator = (model: object) => {
 
 
 const args = {
-    surname: {type: 'string',label:'Prénom'},
+    surname: {type: 'string',label: 'Prénom'},
     name: {type: 'string',label:'Nom'},
     email: {type: 'string',format:'email',label:'Email'},
     phone: {type: 'string',label:'Téléphone'},
