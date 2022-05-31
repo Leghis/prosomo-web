@@ -5,11 +5,12 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import VirtualizedListRelations from "../VirtualizedListRelations"
-import {Button, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
+import {Avatar, Button, Divider, ListItem, ListItemAvatar, ListItemIcon, ListItemText} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import {Link} from "react-router-dom";
 import getAllRelation from "../../../services/graphql/Relation/getAllRelation";
 import {Alert} from "@material-ui/lab";
+import StarsIcon from '@material-ui/icons/Stars';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -33,11 +34,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default  function ListOfRelations({id}) {
+export default function ListOfRelations({id, defaulContact}) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const {loading, error, data} =  getAllRelation(id)
-  console.log(id)
+  const {loading, error, data} = getAllRelation(id)
 
   const handleOpen = () => {
     setOpen(true);
@@ -72,11 +72,28 @@ export default  function ListOfRelations({id}) {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h2 id="transition-modal-title">Liste de contact</h2>
+            <h2 id="transition-modal-title">Liste de relations</h2>
 
+
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <StarsIcon/>
+                </Avatar>
+              </ListItemAvatar>
+              {
+                defaulContact ? <ListItemText
+                  primary={defaulContact.name}
+                  secondary={defaulContact.phone}/> : <ListItemText primary={"Aucun contact principal"}/>
+              }
+
+            </ListItem>
+            <Divider/>
             {/*liste deroulante de contact*/}
             {
-              data?data.getAllRelation.length === 0?<Alert icon={false} severity="success">Liste de contact vide</Alert>:<VirtualizedListRelations data={data}/>:""
+              data ? data.getAllRelation.length === 0 ?
+                <Alert icon={false} severity="success">Liste de contact vide</Alert> :
+                <VirtualizedListRelations defaulContact={defaulContact} data={data}/> : ""
             }
 
             {/*bouton pour ajouter un contact*/}

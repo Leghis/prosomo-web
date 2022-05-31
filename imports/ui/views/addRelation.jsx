@@ -7,6 +7,7 @@ import updateOneContact from "../../services/graphql/Contact/updateOneContact";
 import {makeStyles} from "@material-ui/core/styles";
 import postOneRelation from "../../services/graphql/Relation/CreateRelation";
 import getOneRelation from "../../services/graphql/Relation/getOneRelation";
+import updateOneRelation from "../../services/graphql/Relation/updateOneRelation";
 
 const useStyles = makeStyles({
   root: {
@@ -40,7 +41,7 @@ const addRelation = () => {
 
 
   const [CreateRelation] = postOneRelation()
-  const [updateContact, {dataUpdateContact, loadingUpdate, errorUpdateContact}] = updateOneContact()
+  const [updateRelation] = updateOneRelation()
 
   //this hook will allow us to store the values of a contact if it exists
   const [FormValue, setFormValue] = useState(null)
@@ -59,7 +60,7 @@ const addRelation = () => {
     if (load) setLoading(load)
     if (failed) setError(true)
     if (response) {
-      setFormValue(response.getContact)
+      setFormValue(response.getRelation)
     }
   }, [load, failed, response])
 
@@ -86,10 +87,10 @@ const addRelation = () => {
         {
           FormValue &&
           <AutoForm model={FormValue} schema={schema} onSubmit={(e) =>
-            updateContact(
+            updateRelation(
               {
                 variables: {
-                  "contact": {
+                  "relation": {
                     box: e.box,
                     surname: e.surname,
                     name: e.name,
@@ -101,7 +102,7 @@ const addRelation = () => {
                     comment1: e.comment1,
                     comment2: e.comment2
                   },
-                  "refreshContactId": id,
+                  "refreshRelationId": id,
                 }
               }).then(() => {
               click()

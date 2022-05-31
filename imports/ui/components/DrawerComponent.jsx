@@ -59,7 +59,7 @@ export default function DrawerComponent({id, data}) {
       {/*onClick={toggleDrawer(anchor, false)}*/}
       {/*onKeyDown={toggleDrawer(anchor, false)}*/}
       <List>
-        <ListOfRelations id={id}/>
+        <ListOfRelations defaulContact={data.DefaultRelation} id={id}/>
         <FullScreenDialogComponent data={data}/>
       </List>
       <Divider/>

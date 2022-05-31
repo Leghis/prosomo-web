@@ -17,8 +17,8 @@ const getRelationById = gql`
       comment2
     }
   }`
-const getOneRelation = (id) => {
-  const {loading, error, data} = useQuery(getRelationById, {
+const getOneRelation =  (id) => {
+  const {loading, error, data} =  useQuery(getRelationById, {
     variables: {
       getRelationId: id
     }
