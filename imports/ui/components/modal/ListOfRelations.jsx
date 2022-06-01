@@ -41,6 +41,8 @@ export default function ListOfRelations({id, defaulContact}) {
   const {loading, error, data} = getAllRelation(id)
   const { t, i18n } = useTranslation();
 
+  // console.log("defaulContact")
+  // console.log(defaulContact)
 
   const handleOpen = () => {
     setOpen(true);

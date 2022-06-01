@@ -8,7 +8,11 @@ const update = gql`
   }
 `
 const updateOneContact = () => {
-  const [updateRelation, {data, loading, error, client}] = useMutation(update)
+  const [updateRelation, {data, loading, error, client}] = useMutation(update,{
+     async update(cache,result){
+       await client.resetStore()
+    }
+  })
 
   return [updateRelation, {dataUpdateRelation: data, loadingUpdate: loading, errorUpdateRelation: error}]
 }
