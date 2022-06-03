@@ -24,6 +24,7 @@
     "i18next": "^21.8.5",
     "meteor-node-stubs": "^1.1.0",
     "module-cache": "^1.0.4",
+    "moment": "^2.29.3",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

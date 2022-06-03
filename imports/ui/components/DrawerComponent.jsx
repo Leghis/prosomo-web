@@ -72,7 +72,7 @@ export default function DrawerComponent({id, data}) {
         <Link className={classes.btnStyle} to={`/update/${data._id}`}>
           <ListItem button>
             <ListItemIcon><EditIcon/></ListItemIcon>
-            <ListItemText primary={t("table.options")}/>
+            <ListItemText primary={t("modifier")}/>
           </ListItem>
         </Link>
 

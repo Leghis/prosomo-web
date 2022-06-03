@@ -12,12 +12,13 @@ const getContactById = gql`
       region
       box
       country
+      date
       comment1
       comment2
     }
   }`
 const getOneContact = (id) => {
-  const {loading, error, data} = useQuery(getContactById, {
+  const {loading, error, data} =  useQuery(getContactById, {
     variables: {
       getContactId: id
     }
