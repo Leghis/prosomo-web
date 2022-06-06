@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, ReactElement, Children} from "react";
 import {AutoField, DateField, AutoForm, ErrorsField, SubmitField, SelectField} from "uniforms-material";
 import {bridge as schema} from "../../schema/GraphQLBridge/Contact/ContactSchema";
 import {Link, Redirect, useHistory, useLocation, useParams} from "react-router-dom";
@@ -9,8 +9,7 @@ import updateOneContact from "../../services/graphql/Contact/updateOneContact";
 import {makeStyles} from "@material-ui/core/styles";
 import {useTranslation} from "react-i18next";
 import {gql, useApolloClient} from "@apollo/client";
-import moment from "moment";
-import {useForm} from "uniforms";
+import {Context, useForm} from "uniforms";
 
 
 const useStyles = makeStyles({
@@ -45,6 +44,18 @@ async function emailValidation(model, client) {
     .catch(error => console.log(`received error ${error}`))
 
   return exist;
+}
+
+const DisplayIfProps = {
+  children: ReactElement,
+  condition: Context
+};
+
+// We have to ensure that there's only one child, because returning an array
+// from a component is prohibited.
+function DisplayIf(DisplayIfProps) {
+  const uniforms = useForm();
+  return DisplayIfProps.condition(uniforms) ? Children.only(DisplayIfProps.children) : null;
 }
 
 
@@ -93,11 +104,9 @@ const Update = () => {
     if (load) setLoading(load)
     if (failed) setError(true)
     if (response) {
-      setCountry(response.getContact.country)
-      let date = response.getContact.date
-      setFormValue({...response.getContact, date:new Date(date)})
-      console.log(new Date())
-      console.log(FormValue)
+      setCountry((response.getContact)?response.getContact.country:"")
+      let date = (response.getContact)?response.getContact.date:new Date()
+      response.getContact? setFormValue({...response.getContact, date: new Date(date)}):""
     }
   }, [load, failed, response])
 
@@ -135,6 +144,7 @@ const Update = () => {
     return newModel ?? model;
   }
 
+
   //Fonction permettant de faire la validation asynchrone
   const onValidate = async (model, error) => {
     let details = await isSomeSpecialCase(error) ?? []
@@ -166,7 +176,7 @@ const Update = () => {
           onChange={(key, value) => key === "country" && setCountry(value)}
           modelTransform={modelTransform}
           model={FormValue} schema={schema}
-          onSubmit={(e) =>{
+          onSubmit={(e) => {
             updateContact({
               variables: {
                 "contact": {
@@ -178,7 +188,7 @@ const Update = () => {
                   town: e.town,
                   region: e.region,
                   country: e.country,
-                  date:e.date,
+                  date: e.date,
                   comment1: e.comment1,
                   comment2: e.comment2
                 }, "refreshContactId": id,
@@ -198,7 +208,7 @@ const Update = () => {
             <AutoField name="region"/> : <AutoField name="region"/>}
           <AutoField name="phone"/>
           <AutoField name="box"/>
-          <DateField  type="date" name="date"/>
+          <DateField type="date" name="date"/>
           <AutoField name="comment1"/>
           <AutoField name="comment2"/>
           <ErrorsField/>
@@ -207,7 +217,8 @@ const Update = () => {
 
       {/*if the id doesn't exist, it means we just want to create a new contact,
                 so we will just display an empty form*/}
-      {!id && <AutoForm onChange={(key, value) => key === "country" && setCountry(value.toString.toLowerCase())} onValidate={onValidate}
+      {!id && <AutoForm onChange={(key, value) => key === "country" && setCountry(value && value.toLowerCase())}
+                        onValidate={onValidate}
                         modelTransform={modelTransform}
                         placeholder
                         schema={schema}
@@ -237,8 +248,16 @@ const Update = () => {
         <AutoField name="email"/>
         <AutoField name="town"/>
         <SelectField name="country"/>
-        {country ? country.toLowerCase() === "canada" ? <SelectField allowedValues={province} name="region"/> :
-          <AutoField name="region"/> : <AutoField name="region"/>}
+        {/*{country ? country.toLowerCase() === "canada" ? <SelectField allowedValues={province} name="region"/> :*/}
+        {/*  <AutoField name="region"/> : <AutoField name="region"/>}*/}
+
+        <DisplayIf condition={context => context.model.country === "CANADA"}>
+          <SelectField allowedValues={province} name="region"/>
+        </DisplayIf>
+        <DisplayIf condition={context => context.model.country === "AUTRES"}>
+          <AutoField name="region"/>
+        </DisplayIf>
+
         <AutoField name="phone"/>
         <AutoField name="box"/>
         <DateField type="date" name="date"/>
